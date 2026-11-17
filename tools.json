@@ -1,0 +1,39 @@
+[
+  {
+    "name": "hk_hkma_actions_search",
+    "description": "Search Hong Kong Monetary Authority (HKMA) enforcement releases against firms: disciplinary actions and pecuniary penalties on banks for Anti-Money Laundering and Counter-Terrorist Financing Ordinance breaches, on stored value facility licensees (e-wallets such as WeChat Pay Hong Kong) under the Payment Systems and Stored Value Facilities Ordinance, and HKMA joint releases with the SFC naming a bank (reprimands and fines). Each hit gives the release id, date, the firm, the kind of action and a link. Filter by a word in the title or firm name (a bank, 'stored value', 'Anti-Money Laundering') or by year. Rows about individuals are dropped and counted in individuals_dropped. Example: query=\"bank\". Use hk_hkma_action_get for the penalty amounts and release text.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Word in the release title or firm name (e.g. \"Hang Seng\", \"Anti-Money Laundering\", \"stored value\"). Optional."
+        },
+        "year": {
+          "type": "number",
+          "description": "Only releases dated in this year (e.g. 2025). Optional."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Releases to return (1-50, default 20)."
+        }
+      }
+    }
+  },
+  {
+    "name": "hk_hkma_action_get",
+    "description": "Get one Hong Kong Monetary Authority enforcement release against a firm by its id (such as 2025/07/20250722-4 from hk_hkma_actions_search): the release date, the firm or banks concerned, the action taken (reprimand, look-back review, pecuniary penalty), the penalty amounts in HK$, the investigation findings, and links to the Statements of Disciplinary Action. Quoted remarks by named HKMA officials are removed. An unknown id returns found:false; a release about an individual returns found:false with empty_reason not_a_firm_action. Example: id=\"2025/07/20250722-4\".",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Release id such as 2025/07/20250722-4, as returned by hk_hkma_actions_search."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  }
+]
